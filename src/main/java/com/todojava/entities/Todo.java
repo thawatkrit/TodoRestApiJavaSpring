@@ -1,21 +1,35 @@
 package com.todojava.entities;
 
-public class Todo {
-	private Long id;
-	private String title;
-	private String detail;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-	public Todo(Long id, String title, String detail) {
+import org.springframework.lang.NonNull;
+
+@Entity
+public class Todo {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String id;
+	@NonNull
+	private String title;
+	@NonNull
+	private String detail;
+	public Todo() {
+	}
+
+	public Todo(String id, String title, String detail) {
 		this.id = id;
-		this.title = detail;
+		this.title = title;
 		this.detail = detail;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -28,11 +42,12 @@ public class Todo {
 	}
 
 	public String getDetail() {
-		return this.title;
+		return this.detail;
 	}
 
-	public void setName(String detail) {
+	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
 
 }
