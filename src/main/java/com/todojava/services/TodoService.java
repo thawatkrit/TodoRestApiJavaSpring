@@ -1,13 +1,12 @@
 package com.todojava.services;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.todojava.entities.Todo;
-import com.todojava.repo.Repo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.todojava.entities.Todo;
+import com.todojava.repo.Repo;
 
 @Service
 public class TodoService {
@@ -18,13 +17,24 @@ public class TodoService {
 		return repo.findAll();
 	}
 
-	public void addTodo(Todo todo) {
-		repo.save(todo);
+	public void addTodo(Todo todo) throws Exception {
+		String id = todo.getId();
+		if (id == null) {
+			repo.save(todo);
+		} else {
+			Todo entiity = repo.findById(id).get();
+			if (entiity == null) {
+				repo.save(todo);
+			} else {
+				throw new Exception();
+			}
+		}
 	}
 
 	public void deleteTodo(String id) {
 		repo.deleteById(id);
 	}
+
 	public void updateTodo(Todo todo) {
 		Todo entity = repo.findById(todo.getId()).get();
 		entity.setTitle(todo.getTitle());
